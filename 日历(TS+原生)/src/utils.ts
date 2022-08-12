@@ -68,3 +68,7 @@ export const getDagteInfo = (timeStamp?:number ):{year:number, month:number, day
     day: date.getDate()
   }
 }
+
+export const getFormatDate = (year:number, month:number, day:number) => {
+  
+}
