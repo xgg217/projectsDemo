@@ -1,21 +1,50 @@
-<!--
- * @Author: 付祖敏 1326580471@qq.com
- * @Date: 2022-08-03 21:05:15
- * @LastEditors: 付祖敏 1326580471@qq.com
- * @LastEditTime: 2022-08-03 21:09:12
- * @FilePath: \日历\index.html
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
+    <title>日历</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <section>
+        <ul class="sw">
+          <li>&#60;&#60;</li>
+          <li>&#60;</li>
+          <li>
+            <p class="year">2022年</p>
+            <p class="month">9月</p>
+          </li>
+          <li>&gt;</li>
+          <li>&gt;&gt;</li>
+        </ul>
+        <table cellspacing="0" cellpadding="0">
+          <thead>
+            <tr>
+              <th>日</th>
+              <th>一</th>
+              <th>二</th>
+              <th>三</th>
+              <th>四</th>
+              <th>五</th>
+              <th>六</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <!-- <td>日</td>
+              <td>一</td>
+              <td>二</td>
+              <td>三</td>
+              <td>四</td>
+              <td>五</td>
+              <td>六</td> -->
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
