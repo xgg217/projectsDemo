@@ -1,8 +1,12 @@
 lockfileVersion: 5.4
 
 specifiers:
+  dayjs: ^1.11.4
   typescript: ^4.6.4
   vite: ^3.0.0
+
+dependencies:
+  dayjs: registry.npmmirror.com/dayjs/1.11.5
 
 devDependencies:
   typescript: registry.npmmirror.com/typescript/4.7.4
@@ -20,6 +24,12 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  registry.npmmirror.com/dayjs/1.11.5:
+    resolution: {integrity: sha512-CAdX5Q3YW3Gclyo5Vpqkgpj8fSdLQcRuzfX6mC6Phy0nfJ0eGYOeS7m4mt2plDWLAtA4TqTakvbboHvUxfe4iA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dayjs/-/dayjs-1.11.5.tgz}
+    name: dayjs
+    version: 1.11.5
+    dev: false
 
   registry.npmmirror.com/esbuild-android-64/0.14.53:
     resolution: {integrity: sha512-fIL93sOTnEU+NrTAVMIKiAw0YH22HWCAgg4N4Z6zov2t0kY9RAJ50zY9ZMCQ+RT6bnOfDt8gCTnt/RaSNA2yRA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/esbuild-android-64/-/esbuild-android-64-0.14.53.tgz}
