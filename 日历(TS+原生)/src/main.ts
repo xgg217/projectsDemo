@@ -16,14 +16,13 @@ console.log();
   const prevMonthDom = document.querySelector('.sw .prevMonth') as Element;
   const nextMonthDom = document.querySelector('.sw .nextMonth') as Element;
 
+  // const newYear = dayjs().year();
+  // const newMonth = dayjs().month() + 1;
+  // const newDay = dayjs().date();
+
   // 渲染日历
-  const setRl = (year: number, month: number) => {
-    // console.log(month);
-    const date = dayjs().date() // 当前月份
-
-    const arr = getMonthDays(year, month)
-
-    tbodyDom.innerHTML = render(arr, date)
+  const setRl = (newY: number, newM: number) => {
+    tbodyDom.innerHTML = render(newY, newM)
   }
 
 
@@ -32,8 +31,20 @@ console.log();
   const handle = () => {
 
     // 上一年
+    prevYearDom.addEventListener('click',() => {
+      const year = parseInt(yearDom.textContent || '') // 当前年份
+      const month = parseInt(monthDom.textContent || '') // 当前月份
+      yearDom.textContent = year - 1 + '年'
+      setRl(year - 1, month)
+    })
 
     // 下一年
+    nextYearDom.addEventListener('click',() => {
+      const year = parseInt(yearDom.textContent || '') // 当前年份
+      const month = parseInt(monthDom.textContent || '') // 当前月份
+      yearDom.textContent = year + 1 + '年'
+      setRl(year + 1, month)
+    })
 
     // 上个月
     prevMonthDom.addEventListener('click', () => {
@@ -65,30 +76,13 @@ console.log();
       }
     })
 
-
-    // prevDom.addEventListener('click', () => {
-    //   // const year = dayjs().subtract(1, 'month').year() // 当前年份
-    //   const month = dayjs().subtract(1, 'month').month() + 1 // 当前月份
-
-    //   yearDom.textContent = year + '年'
-    //   monthDom.textContent = month + '月'
-    //   setRl(year, month)
-    // })
-
-    // nextDom.addEventListener('click', () => {
-    //   const year = dayjs().add(1, 'month').year() // 当前年份
-    //   const month = dayjs().add(1, 'month').month() + 1 // 当前月份
-
-    //   yearDom.textContent = year + '年'
-    //   monthDom.textContent = month + '月'
-    //   setRl(year, month)
-    // })
   }
 
   // 初始化
   const init = () => {
     const year = dayjs().year() // 当前年份
     const month = dayjs().month() + 1 // 当前月份
+    // const day = dayjs().day // 当前日期
 
     yearDom.textContent = year + '年'
     monthDom.textContent = month + '月'
