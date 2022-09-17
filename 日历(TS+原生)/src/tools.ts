@@ -125,11 +125,6 @@ export const getMonthDays = (year: number, month: number):IMoonth  => {
   }
 }
 
-interface INYmd {
-  newY: number,
-  newM: number,
-}
-
 interface IYmd {
   y: number,
   m: number,
