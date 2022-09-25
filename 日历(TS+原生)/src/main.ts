@@ -1,10 +1,7 @@
-// import './css/style.css'
 import './css/rl.css'
-// import { getNextMonthResDays } from './utils'
 import dayjs from 'dayjs'
 
-import { getMonthDays, render } from './tools'
-console.log();
+import { render } from './tools'
 
 // 初始化日历
 (() => {
@@ -16,16 +13,10 @@ console.log();
   const prevMonthDom = document.querySelector('.sw .prevMonth') as Element;
   const nextMonthDom = document.querySelector('.sw .nextMonth') as Element;
 
-  // const newYear = dayjs().year();
-  // const newMonth = dayjs().month() + 1;
-  // const newDay = dayjs().date();
-
   // 渲染日历
   const setRl = (newY: number, newM: number) => {
     tbodyDom.innerHTML = render(newY, newM)
   }
-
-
 
   // 事件处理
   const handle = () => {
