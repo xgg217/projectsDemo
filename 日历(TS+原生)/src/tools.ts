@@ -146,16 +146,16 @@ export const render = ( newY:number, newM:number, avcObj?:IYmd): string => {
   const {lastArr, arr, nextArr} = getMonthDays(newY, newM)
 
   const lastDomArr = lastArr.map(item => {
-    return `<td class="off">${item}</td>`
+    return `<td class="off"><p>${item}</p><p>农历</p></td>`
   });
   const arrDomArr = arr.map(item => {
     if(item === d && newM === m && newY === y) {
-      return `<td class="active">${item}</td>`
+      return `<td class="active"><p>${item}</p><p>农历</p></td>`
     }
-    return `<td class="">${item}</td>`
+    return `<td class=""><p>${item}</p><p>农历</p></td>`
   })
   const nextDomArr = nextArr.map(item => {
-    return `<td class="off">${item}</td>`
+    return `<td class="off"><p>${item}</p><p>农历</p></td>`
   });
 
   const newDayArr = [...lastDomArr, ...arrDomArr, ...nextDomArr]
