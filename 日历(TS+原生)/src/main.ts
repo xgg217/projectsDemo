@@ -54,23 +54,23 @@ const tooltObj = (() => {
   // 事件处理
   const handle = () => {
 
-    // 上一年 - 点击
+    // 上一年
     prevYearDom.addEventListener('click',() => {
       const year = Number(yearDom.value || '') // 当前年份
       const month = Number(monthDom.value || '') // 当前月份
       yearDom.selectedIndex = tooltObj.setYear(year - 1);
       setRl(year - 1, month)
-    })
+    });
 
-    // 下一年 - 点击
+    // 下一年
     nextYearDom.addEventListener('click',() => {
       const year = Number(yearDom.value || '') // 当前年份
       const month = Number(monthDom.value || '') // 当前月份
       yearDom.selectedIndex = tooltObj.setYear(year + 1);
       setRl(year + 1, month)
-    })
+    });
 
-    // 上个月 - 点击
+    // 上个月
     prevMonthDom.addEventListener('click', () => {
       const year = Number(yearDom.value) // 当前年份
       const month = Number(monthDom.value) // 当前月份
@@ -82,9 +82,9 @@ const tooltObj = (() => {
         monthDom.selectedIndex = month - 1 - 1;
         setRl(year, month - 1)
       }
-    })
+    });
 
-    // 下个月 - 点击
+    // 下个月
     nextMonthDom.addEventListener('click', () => {
       const year = Number(yearDom.value) // 当前年份
       const month = Number(monthDom.value) // 当前月份
@@ -96,7 +96,23 @@ const tooltObj = (() => {
         monthDom.selectedIndex = month;
         setRl(year, month + 1)
       }
-    })
+    });
+
+    // 选择年份
+    yearDom.addEventListener('change', (e) => {
+      const year = Number((e.target as HTMLSelectElement).value);
+      const month = Number(monthDom.value) // 当前月份
+      yearDom.selectedIndex = tooltObj.setYear(year);
+      setRl(year, month)
+    });
+
+    // 选择月份
+    monthDom.addEventListener('change', (e) => {
+      const year = Number(yearDom.value) // 当前年份
+      const month = Number((e.target as HTMLSelectElement).value);
+      monthDom.selectedIndex = month - 1;
+      setRl(year, month)
+    });
   }
 
   // 初始化
