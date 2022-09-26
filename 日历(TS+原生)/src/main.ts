@@ -1,10 +1,7 @@
-// import './css/style.css'
 import './css/rl.css'
-// import { getNextMonthResDays } from './utils'
 import dayjs from 'dayjs'
 
-import { getMonthDays, render } from './tools'
-console.log();
+import { render } from './tools'
 
 // 工具函数
 const tooltObj = (() => {
@@ -53,10 +50,6 @@ const tooltObj = (() => {
   const setRl = (newY: number, newM: number) => {
     tbodyDom.innerHTML = render(newY, newM)
   }
-
-  
-
-
 
   // 事件处理
   const handle = () => {
