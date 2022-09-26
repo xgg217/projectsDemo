@@ -6,86 +6,119 @@ import dayjs from 'dayjs'
 import { getMonthDays, render } from './tools'
 console.log();
 
+// 工具函数
+const tooltObj = (() => {
+  // const yearDom = document.querySelector('.sw .year') as HTMLSelectElement;
+  // const monthDom = document.querySelector('.sw .month') as HTMLSelectElement;
+  const minYear = 2000;
+  const maxYear = 2050;
+
+  // 初始化年份数据
+  const initYear = () => {
+    const arr = [];
+    for (let i = minYear; i <= maxYear; i++) {
+      arr.push(i);
+    }
+
+    return arr.map(item => {
+      return `<option value="${item}">${item}年</option>`
+    }).join('')
+  }
+
+  /**
+   * 计算年份
+   * @param year 年份
+   */
+  const setYear = (year:number) => {
+    return year - minYear
+  }
+
+  return {
+    initYear,
+    setYear
+  }
+})();
+
 // 初始化日历
-(() => {
+((tooltObj) => {
   const tbodyDom = document.querySelector('tbody') as HTMLTableSectionElement;
-  const yearDom = document.querySelector('.sw .year') as Element;
-  const monthDom = document.querySelector('.sw .month') as Element;
+  const yearDom = document.querySelector('.sw .year') as HTMLSelectElement;
+  const monthDom = document.querySelector('.sw .month') as HTMLSelectElement;
   const prevYearDom = document.querySelector('.sw .prevYear') as Element;
   const nextYearDom = document.querySelector('.sw .nextYear') as Element;
   const prevMonthDom = document.querySelector('.sw .prevMonth') as Element;
   const nextMonthDom = document.querySelector('.sw .nextMonth') as Element;
-
-  // const newYear = dayjs().year();
-  // const newMonth = dayjs().month() + 1;
-  // const newDay = dayjs().date();
 
   // 渲染日历
   const setRl = (newY: number, newM: number) => {
     tbodyDom.innerHTML = render(newY, newM)
   }
 
+  
+
 
 
   // 事件处理
   const handle = () => {
 
-    // 上一年
+    // 上一年 - 点击
     prevYearDom.addEventListener('click',() => {
-      const year = parseInt(yearDom.textContent || '') // 当前年份
-      const month = parseInt(monthDom.textContent || '') // 当前月份
-      yearDom.textContent = year - 1 + '年'
+      const year = Number(yearDom.value || '') // 当前年份
+      const month = Number(monthDom.value || '') // 当前月份
+      yearDom.selectedIndex = tooltObj.setYear(year - 1);
       setRl(year - 1, month)
     })
 
-    // 下一年
+    // 下一年 - 点击
     nextYearDom.addEventListener('click',() => {
-      const year = parseInt(yearDom.textContent || '') // 当前年份
-      const month = parseInt(monthDom.textContent || '') // 当前月份
-      yearDom.textContent = year + 1 + '年'
+      const year = Number(yearDom.value || '') // 当前年份
+      const month = Number(monthDom.value || '') // 当前月份
+      yearDom.selectedIndex = tooltObj.setYear(year + 1);
       setRl(year + 1, month)
     })
 
-    // 上个月
+    // 上个月 - 点击
     prevMonthDom.addEventListener('click', () => {
-      const year = parseInt(yearDom.textContent || '') // 当前年份
-      const month = parseInt(monthDom.textContent || '') // 当前月份
+      const year = Number(yearDom.value) // 当前年份
+      const month = Number(monthDom.value) // 当前月份
       if (month === 1) {
-        yearDom.textContent = year - 1 + '年'
-        monthDom.textContent = 12 + '月'
+        yearDom.selectedIndex = tooltObj.setYear(year - 1);
+        monthDom.selectedIndex = 11;
         setRl(year - 1, 12)
       } else {
-        monthDom.textContent = month - 1 + '月'
+        monthDom.selectedIndex = month - 1 - 1;
         setRl(year, month - 1)
       }
     })
 
-    // 下个月
+    // 下个月 - 点击
     nextMonthDom.addEventListener('click', () => {
-      const year = parseInt(yearDom.textContent || '') // 当前年份
-      const month = parseInt(monthDom.textContent || '') // 当前月份
+      const year = Number(yearDom.value) // 当前年份
+      const month = Number(monthDom.value) // 当前月份
       if (month === 12) {
-        yearDom.textContent = year + 1 + '年'
-        monthDom.textContent = 1 + '月'
-        console.log(year + 1);
-        
+        yearDom.selectedIndex = tooltObj.setYear(year + 1);
+        monthDom.selectedIndex = 0;
         setRl(year + 1, 1)
       } else {
-        monthDom.textContent = month + 1 + '月'
+        monthDom.selectedIndex = month;
         setRl(year, month + 1)
       }
     })
-
   }
 
   // 初始化
   const init = () => {
     const year = dayjs().year() // 当前年份
     const month = dayjs().month() + 1 // 当前月份
-    // const day = dayjs().day // 当前日期
 
-    yearDom.textContent = year + '年'
-    monthDom.textContent = month + '月'
+    // 初始化年份数据
+    yearDom.insertAdjacentHTML('afterbegin', tooltObj.initYear());
+
+    // 设置年份
+    yearDom.selectedIndex = tooltObj.setYear(year);
+
+    // 设置月份
+    monthDom.selectedIndex = month - 1;
     setRl(year, month);
 
     // 事件
@@ -93,6 +126,8 @@ console.log();
   }
 
   init();
-})();
+})(tooltObj);
+
+
 
 
