@@ -1,5 +1,7 @@
 import dayjs from 'dayjs'
 
+import type { IMoonth, IYmd } from "./types";
+
 /**
  * 获取指定月份的1号是星期几
  * @param year 年份
@@ -27,13 +29,6 @@ export const getMonthDayCount = (year: number, month: number): number => {
  * @returns 
  */
 export const getLastMonthRestDay = (year: number, month: number): number[] => {
-  // const days = getFirstWeekDay(year, month);
-  // let lastDate = getMonthDayCount(year, month - 1);
-  // const restDayArr: number[] = [];
-  // while (restDayArr.length < (days - 1)) {
-  //   restDayArr.push(lastDate--)
-  // }
-  // return restDayArr.reverse()
   let newYear = year;
   let newMonth = month;
   
@@ -57,13 +52,7 @@ export const getLastMonthRestDay = (year: number, month: number): number[] => {
   for(let i = 0; i < week; i++) {
     restDayArr.push(day - i)
   }
-  // console.log(restDayArr.reverse());
-  
   return restDayArr.reverse()
-
-
-
-
 }
 
 /**
@@ -95,18 +84,13 @@ export const getNextMonthResDays = (year: number, month: number) => {
   return restDays
 }
 
-interface IMoonth {
-  lastArr: number[]
-  arr: number[]
-  nextArr: number[]
-}
-
 /**
  * 获取指定月份的日期数组(含上个与下个月的日期)
  */
 export const getMonthDays = (year: number, month: number):IMoonth  => {
   // 上个月的剩余天数
   const lastMonthRestDays = getLastMonthRestDay(year, month);
+  const newLastMonthRestDays = getTypeArr(lastMonthRestDays, year, month - 1)
 
   // 本月的天数
   const currentMonthDayCount = getMonthDayCount(year, month);
@@ -114,21 +98,28 @@ export const getMonthDays = (year: number, month: number):IMoonth  => {
   for (let i = 0; i < currentMonthDayCount; i++) {
     days.push(i + 1)
   }
+  const newDays = getTypeArr(days, year, month)
 
   // 下个月的天数
   const nextMonthRestDays = getNextMonthResDays(year, month);
+  const newNextMonthRestDays = getTypeArr(nextMonthRestDays, year, month + 1)
 
   return {
-    lastArr: lastMonthRestDays, // 上个月
-    arr: days, // 本月
-    nextArr: nextMonthRestDays, // 下个月
+    lastArr: newLastMonthRestDays, // 上个月
+    arr: newDays, // 本月
+    nextArr: newNextMonthRestDays, // 下个月
   }
 }
 
-interface IYmd {
-  y: number,
-  m: number,
-  d: number
+// 获取指定日期的年月数组
+const getTypeArr = (arr: number[], newY:number, newM:number): IYmd[] => {
+  return arr.map((item) => {
+    return {
+      y: newY,
+      m: newM,
+      d: item,
+    }
+  })
 }
 
 /**
@@ -137,35 +128,37 @@ interface IYmd {
  * @param param2 y 年 m 月份 d 日期 需要高亮的日期
  * @returns 
  */
-export const render = ( newY:number, newM:number, avcObj?:IYmd): string => {
+export const getData = ( newY:number, newM:number, avcObj?:IYmd): IYmd[] => {
+  // export const render = ( newY:number, newM:number, avcObj?:IYmd): IYmd[] => {
   const y = avcObj ? avcObj.y : dayjs().year();
   const m = avcObj ? avcObj.m : dayjs().month() + 1;
   const d = avcObj ? avcObj.d: dayjs().date();
 
   // 获取月份数组（含上月与下月）
-  const {lastArr, arr, nextArr} = getMonthDays(newY, newM)
+  const {lastArr, arr, nextArr} = getMonthDays(newY, newM);
 
-  const lastDomArr = lastArr.map(item => {
-    return `<td class="off"><p>${item}</p><p>农历</p></td>`
-  });
-  const arrDomArr = arr.map(item => {
-    if(item === d && newM === m && newY === y) {
-      return `<td class="active"><p>${item}</p><p>农历</p></td>`
-    }
-    return `<td class=""><p>${item}</p><p>农历</p></td>`
-  })
-  const nextDomArr = nextArr.map(item => {
-    return `<td class="off"><p>${item}</p><p>农历</p></td>`
-  });
+  // const lastDomArr = lastArr.map(item => {
+  //   return `<td class="off"><p>${item.d}</p><p>农历</p></td>`
+  // });
+  // const arrDomArr = arr.map(item => {
+  //   if(item.d === d && newM === m && newY === y) {
+  //     return `<td class="active"><p>${item.d}</p><p>农历</p></td>`
+  //   }
+  //   return `<td class=""><p>${item.d}</p><p>农历</p></td>`
+  // })
+  // const nextDomArr = nextArr.map(item => {
+  //   return `<td class="off"><p>${item.d}</p><p>农历</p></td>`
+  // });
 
-  const newDayArr = [...lastDomArr, ...arrDomArr, ...nextDomArr]
-  // 合并成二维数组
-  const list = []
-  for(let i = 0; i < (newDayArr.length / 7); i++) {
-    list.push(newDayArr.slice(i * 7, (i + 1) * 7))
-  }
+  return [...lastArr, ...arr, ...nextArr]
+  // const newDayArr = 
+  // // 合并成二维数组
+  // const list = []
+  // for(let i = 0; i < (newDayArr.length / 7); i++) {
+  //   list.push(newDayArr.slice(i * 7, (i + 1) * 7))
+  // }
 
-  return list.map(item => {
-    return `<tr>${item.join('')}</tr>`
-  }).join('')
+  // return list.map(item => {
+  //   return `<tr>${item.join('')}</tr>`
+  // }).join('')
 }

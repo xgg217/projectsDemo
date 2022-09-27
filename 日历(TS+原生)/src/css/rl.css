@@ -84,8 +84,8 @@ table tr td {
 }
 
 
-table tr td.off,
-table tr td.off:hover {
+table tr td.off p,
+table tr td.off:hover p {
   color: #c0c4cc;
   font-weight: 500;
 }

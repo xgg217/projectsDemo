@@ -1,7 +1,8 @@
 import './css/rl.css'
 import dayjs from 'dayjs'
 
-import { render } from './tools'
+import { getData, getMonthDays } from './tools'
+import type { IYmd } from './types'
 
 // 工具函数
 const tooltObj = (() => {
@@ -45,11 +46,58 @@ const tooltObj = (() => {
   const nextYearDom = document.querySelector('.sw .nextYear') as Element;
   const prevMonthDom = document.querySelector('.sw .prevMonth') as Element;
   const nextMonthDom = document.querySelector('.sw .nextMonth') as Element;
+  const map = new Map();
 
   // 渲染日历
-  const setRl = (newY: number, newM: number) => {
-    tbodyDom.innerHTML = render(newY, newM)
-  }
+  const render = (newY: number, newM: number, avcObj?:IYmd) => {
+    const y = avcObj ? avcObj.y : dayjs().year();
+    const m = avcObj ? avcObj.m : dayjs().month() + 1;
+    const d = avcObj ? avcObj.d: dayjs().date();
+
+    const {lastArr, arr, nextArr} = getMonthDays(newY, newM);
+    const list = [...lastArr, ...arr, ...nextArr];
+    console.log(list);
+    
+    const newArr:IYmd[] = JSON.parse(JSON.stringify(list));
+    const listDom = []
+    
+    // dom 结构
+    {
+      const lastDomArr = lastArr.map(item => {
+        return `<td class="off"><p>${item.d}</p><p>农历</p></td>`
+      });
+
+      const arrDomArr = arr.map(item => {
+        if(item.d === d && newM === m && newY === y) {
+          return `<td class="active"><p>${item.d}</p><p>农历</p></td>`
+        }
+        return `<td class=""><p>${item.d}</p><p>农历</p></td>`
+      })
+
+      const nextDomArr = nextArr.map(item => {
+        return `<td class="off"><p>${item.d}</p><p>农历</p></td>`
+      });
+
+      const newDayArr = [...lastDomArr, ...arrDomArr, ...nextDomArr]
+
+      for(let i = 0; i < (newDayArr.length / 7); i++) {
+        listDom.push(newDayArr.slice(i * 7, (i + 1) * 7))
+      }
+    }
+
+    // 渲染
+    tbodyDom.innerHTML = listDom.map(item => {
+      return `<tr>${item.join('')}</tr>`
+    }).join('')
+
+    
+    // 便于后续事件处理
+    newArr.forEach(item => {
+      const {y,m,d} = item
+      const key = [y,m,d].join('');
+      map.set(key, {...item})
+    })
+  };
 
   // 事件处理
   const handle = () => {
@@ -59,7 +107,7 @@ const tooltObj = (() => {
       const year = Number(yearDom.value || '') // 当前年份
       const month = Number(monthDom.value || '') // 当前月份
       yearDom.selectedIndex = tooltObj.setYear(year - 1);
-      setRl(year - 1, month)
+      render(year - 1, month)
     });
 
     // 下一年
@@ -67,7 +115,7 @@ const tooltObj = (() => {
       const year = Number(yearDom.value || '') // 当前年份
       const month = Number(monthDom.value || '') // 当前月份
       yearDom.selectedIndex = tooltObj.setYear(year + 1);
-      setRl(year + 1, month)
+      render(year + 1, month)
     });
 
     // 上个月
@@ -77,10 +125,10 @@ const tooltObj = (() => {
       if (month === 1) {
         yearDom.selectedIndex = tooltObj.setYear(year - 1);
         monthDom.selectedIndex = 11;
-        setRl(year - 1, 12)
+        render(year - 1, 12)
       } else {
         monthDom.selectedIndex = month - 1 - 1;
-        setRl(year, month - 1)
+        render(year, month - 1)
       }
     });
 
@@ -91,10 +139,10 @@ const tooltObj = (() => {
       if (month === 12) {
         yearDom.selectedIndex = tooltObj.setYear(year + 1);
         monthDom.selectedIndex = 0;
-        setRl(year + 1, 1)
+        render(year + 1, 1)
       } else {
         monthDom.selectedIndex = month;
-        setRl(year, month + 1)
+        render(year, month + 1)
       }
     });
 
@@ -103,7 +151,7 @@ const tooltObj = (() => {
       const year = Number((e.target as HTMLSelectElement).value);
       const month = Number(monthDom.value) // 当前月份
       yearDom.selectedIndex = tooltObj.setYear(year);
-      setRl(year, month)
+      render(year, month)
     });
 
     // 选择月份
@@ -111,7 +159,7 @@ const tooltObj = (() => {
       const year = Number(yearDom.value) // 当前年份
       const month = Number((e.target as HTMLSelectElement).value);
       monthDom.selectedIndex = month - 1;
-      setRl(year, month)
+      render(year, month)
     });
   }
 
@@ -128,7 +176,7 @@ const tooltObj = (() => {
 
     // 设置月份
     monthDom.selectedIndex = month - 1;
-    setRl(year, month);
+    render(year, month);
 
     // 事件
     handle()
