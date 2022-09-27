@@ -73,14 +73,14 @@ table tr th,
 table tr td {
   flex: 1;
   font-size: 12px;
-  /* border: 1px solid #000; */
+  border: 1px solid #000;
   text-align: center;
 }
 
 table tr td {
   cursor: pointer;
   /* border: 1px solid red; */
-  padding: 10px 0;
+  /* padding: 10px 0; */
 }
 
 

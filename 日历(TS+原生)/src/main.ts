@@ -64,18 +64,30 @@ const tooltObj = (() => {
     // dom 结构
     {
       const lastDomArr = lastArr.map(item => {
-        return `<td class="off" data-id="${[item.y,item.m, item.d].join()}"><p>${item.d}</p><p>${ item.IDayCn }</p></td>`
+        return `<td class="off">
+          <p data-id="${[item.y,item.m, item.d].join()}">${item.d}</p>
+          <p data-id="${[item.y,item.m, item.d].join()}">${ item.IDayCn }</p>
+        </td>`
       });
 
       const arrDomArr = arr.map(item => {
         if(item.d === d && newM === m && newY === y) {
-          return `<td class="active" data-id="${[item.y,item.m, item.d].join('')}"><p>${item.d}</p><p>${ item.IDayCn }</p></td>`
+          return `<td class="active">
+            <p data-id="${[item.y,item.m, item.d].join('')}">${item.d}</p>
+            <p data-id="${[item.y,item.m, item.d].join('')}">${ item.IDayCn }</p>
+          </td>`
         }
-        return `<td class="" data-id="${[item.y,item.m, item.d].join('')}"><p>${item.d}</p><p>${ item.IDayCn }</p></td>`
+        return `<td class="">
+          <p data-id="${[item.y,item.m, item.d].join('')}">${item.d}</p>
+          <p data-id="${[item.y,item.m, item.d].join('')}">${ item.IDayCn }</p>
+        </td>`
       })
 
       const nextDomArr = nextArr.map(item => {
-        return `<td class="off" data-id="${[item.y,item.m, item.d].join('')}"><p>${item.d}</p><p>${ item.IDayCn }</p></td>`
+        return `<td class="off">
+          <p data-id="${[item.y,item.m, item.d].join('')}">${item.d}</p>
+          <p data-id="${[item.y,item.m, item.d].join('')}">${ item.IDayCn }</p>
+        </td>`
       });
 
       const newDayArr = [...lastDomArr, ...arrDomArr, ...nextDomArr]
@@ -161,6 +173,12 @@ const tooltObj = (() => {
       monthDom.selectedIndex = month - 1;
       render(year, month)
     });
+
+    // 点击日期
+    tbodyDom.addEventListener('click', (e) => {
+      console.log(e.target);
+      
+    })
   }
 
   // 初始化
