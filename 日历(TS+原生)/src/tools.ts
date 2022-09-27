@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import calendar from './calendar'
 
 import type { IMoonth, IYmd } from "./types";
 
@@ -114,51 +115,20 @@ export const getMonthDays = (year: number, month: number):IMoonth  => {
 // 获取指定日期的年月数组
 const getTypeArr = (arr: number[], newY:number, newM:number): IYmd[] => {
   return arr.map((item) => {
+    const obj = calendar.solar2lunar(newY, newM, item);
     return {
       y: newY,
       m: newM,
       d: item,
+      IDayCn: obj.IDayCn,
+      IMonthCn: obj.IMonthCn,
+      astro: obj.astro,
+      gzYear: obj.gzYear,
+      gzMonth: obj.gzMonth,
+      gzDay: obj.gzDay,
+      Animal: obj.Animal,
+      nWeek: obj.nWeek,
+      ncWeek: obj.ncWeek,
     }
   })
-}
-
-/**
- * 渲染 dom 结构
- * @param param1 y 年 m 月份 当前日期
- * @param param2 y 年 m 月份 d 日期 需要高亮的日期
- * @returns 
- */
-export const getData = ( newY:number, newM:number, avcObj?:IYmd): IYmd[] => {
-  // export const render = ( newY:number, newM:number, avcObj?:IYmd): IYmd[] => {
-  const y = avcObj ? avcObj.y : dayjs().year();
-  const m = avcObj ? avcObj.m : dayjs().month() + 1;
-  const d = avcObj ? avcObj.d: dayjs().date();
-
-  // 获取月份数组（含上月与下月）
-  const {lastArr, arr, nextArr} = getMonthDays(newY, newM);
-
-  // const lastDomArr = lastArr.map(item => {
-  //   return `<td class="off"><p>${item.d}</p><p>农历</p></td>`
-  // });
-  // const arrDomArr = arr.map(item => {
-  //   if(item.d === d && newM === m && newY === y) {
-  //     return `<td class="active"><p>${item.d}</p><p>农历</p></td>`
-  //   }
-  //   return `<td class=""><p>${item.d}</p><p>农历</p></td>`
-  // })
-  // const nextDomArr = nextArr.map(item => {
-  //   return `<td class="off"><p>${item.d}</p><p>农历</p></td>`
-  // });
-
-  return [...lastArr, ...arr, ...nextArr]
-  // const newDayArr = 
-  // // 合并成二维数组
-  // const list = []
-  // for(let i = 0; i < (newDayArr.length / 7); i++) {
-  //   list.push(newDayArr.slice(i * 7, (i + 1) * 7))
-  // }
-
-  // return list.map(item => {
-  //   return `<tr>${item.join('')}</tr>`
-  // }).join('')
 }

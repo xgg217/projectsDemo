@@ -1,7 +1,7 @@
 import './css/rl.css'
 import dayjs from 'dayjs'
 
-import { getData, getMonthDays } from './tools'
+import { getMonthDays } from './tools'
 import type { IYmd } from './types'
 
 // 工具函数
@@ -64,18 +64,18 @@ const tooltObj = (() => {
     // dom 结构
     {
       const lastDomArr = lastArr.map(item => {
-        return `<td class="off"><p>${item.d}</p><p>农历</p></td>`
+        return `<td class="off" data-id="${[item.y,item.m, item.d].join()}"><p>${item.d}</p><p>${ item.IDayCn }</p></td>`
       });
 
       const arrDomArr = arr.map(item => {
         if(item.d === d && newM === m && newY === y) {
-          return `<td class="active"><p>${item.d}</p><p>农历</p></td>`
+          return `<td class="active" data-id="${[item.y,item.m, item.d].join('')}"><p>${item.d}</p><p>${ item.IDayCn }</p></td>`
         }
-        return `<td class=""><p>${item.d}</p><p>农历</p></td>`
+        return `<td class="" data-id="${[item.y,item.m, item.d].join('')}"><p>${item.d}</p><p>${ item.IDayCn }</p></td>`
       })
 
       const nextDomArr = nextArr.map(item => {
-        return `<td class="off"><p>${item.d}</p><p>农历</p></td>`
+        return `<td class="off" data-id="${[item.y,item.m, item.d].join('')}"><p>${item.d}</p><p>${ item.IDayCn }</p></td>`
       });
 
       const newDayArr = [...lastDomArr, ...arrDomArr, ...nextDomArr]

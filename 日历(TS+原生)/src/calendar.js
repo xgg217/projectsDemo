@@ -667,9 +667,9 @@ export default {
 };
 
 /** 公历年月日转农历数据 返回json */
-calendar.solar2lunar(1987,11,01);
+// calendar.solar2lunar(1987,11,01);
 /** 农历年月日转公历年月日 */
-calendar.lunar2solar(1987,9,10);
+// calendar.lunar2solar(1987,9,10);
 /**调用以上方法后返回类似如下object（json）具体以上就不需要解释了吧！*/
 /** c开头的是公历各属性值 l开头的自然就是农历咯 gz开头的就是天干地支纪年的数据啦~ */
 // {
