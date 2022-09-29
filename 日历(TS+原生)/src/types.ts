@@ -8,8 +8,8 @@ export interface IYmd {
   y: number, // 年
   m: number, // 月
   d: number, // 日
-  IDayCn: string, // 农历 天
   IMonthCn: string, // 农历 月
+  IDayCn: string, // 农历 天
   astro: string, // 星座
   gzYear: string, // 天干地支纪年 年
   gzMonth: string, // 天干地支纪年 月
