@@ -6,8 +6,6 @@ import type { IYmd } from './types'
 
 // 工具函数
 const tooltObj = (() => {
-  // const yearDom = document.querySelector('.sw .year') as HTMLSelectElement;
-  // const monthDom = document.querySelector('.sw .month') as HTMLSelectElement;
   const minYear = 2000;
   const maxYear = 2050;
 
@@ -46,7 +44,14 @@ const tooltObj = (() => {
   const nextYearDom = document.querySelector('.sw .nextYear') as Element;
   const prevMonthDom = document.querySelector('.sw .prevMonth') as Element;
   const nextMonthDom = document.querySelector('.sw .nextMonth') as Element;
-  const map = new Map();
+  const otherGymd = document.querySelector('.js_other .js_gymd') as Element; // 2022-09-28
+  const otherjsGd = document.querySelector('.js_other .js_gd') as Element; // 28
+  const otherNmd = document.querySelector('.js_other .js_nmd') as Element; // 九月初三
+  const otherNy = document.querySelector('.js_other .js_ny') as Element; // 壬寅年
+  const otherNs = document.querySelector('.js_other .js_ns') as Element; // 虎
+  const otherNm = document.querySelector('.js_other .js_nm') as Element; // 己酉月
+  const otherNd = document.querySelector('.js_other .js_nd') as Element; // 甲申日
+  const map:Map<string, IYmd> = new Map();
 
   // 渲染日历
   const render = (newY: number, newM: number, avcObj?:IYmd) => {
@@ -64,7 +69,7 @@ const tooltObj = (() => {
     // dom 结构
     {
       const lastDomArr = lastArr.map(item => {
-        return `<td class="off">
+        return `<td class="off" data-id="${[item.y,item.m, item.d].join()}">
           <p data-id="${[item.y,item.m, item.d].join()}">${item.d}</p>
           <p data-id="${[item.y,item.m, item.d].join()}">${ item.IDayCn }</p>
         </td>`
@@ -72,19 +77,19 @@ const tooltObj = (() => {
 
       const arrDomArr = arr.map(item => {
         if(item.d === d && newM === m && newY === y) {
-          return `<td class="active">
+          return `<td class="active" data-id="${[item.y,item.m, item.d].join('')}">
             <p data-id="${[item.y,item.m, item.d].join('')}">${item.d}</p>
             <p data-id="${[item.y,item.m, item.d].join('')}">${ item.IDayCn }</p>
           </td>`
         }
-        return `<td class="">
+        return `<td class="" data-id="${[item.y,item.m, item.d].join('')}">
           <p data-id="${[item.y,item.m, item.d].join('')}">${item.d}</p>
           <p data-id="${[item.y,item.m, item.d].join('')}">${ item.IDayCn }</p>
         </td>`
       })
 
       const nextDomArr = nextArr.map(item => {
-        return `<td class="off">
+        return `<td class="off" data-id="${[item.y,item.m, item.d].join('')}">
           <p data-id="${[item.y,item.m, item.d].join('')}">${item.d}</p>
           <p data-id="${[item.y,item.m, item.d].join('')}">${ item.IDayCn }</p>
         </td>`
@@ -104,12 +109,56 @@ const tooltObj = (() => {
 
     
     // 便于后续事件处理
-    newArr.forEach(item => {
+    // newArr.forEach(item => {
+    //   const {y,m,d} = item
+    //   const key = [y,m,d].join('');
+    //   map.set(key, {...item})
+    // })
+    return newArr
+  };
+
+  // 设置map数据
+  const setMapData = (arr:IYmd[]) => {
+    arr.forEach(item => {
       const {y,m,d} = item
       const key = [y,m,d].join('');
       map.set(key, {...item})
     })
   };
+
+  // 渲染 其他栏 信息
+  const renderMapData = (id:string) => {
+
+    let obj:IYmd | undefined = undefined;
+    if(map.has(id)) {
+      obj = map.get(id)
+    }
+    if(!obj) {
+      return
+    }
+
+    const {
+      y,
+      m,
+      d,
+      IDayCn,
+      IMonthCn,
+      gzYear,
+      gzMonth,
+      gzDay,
+      Animal
+    } = obj;
+
+    otherGymd.textContent = `${ y }-${ m }-${d}`;
+    otherjsGd.textContent = d + '';
+    otherNmd.textContent = IMonthCn + IDayCn;
+    otherNy.textContent = gzYear + '年';
+    otherNs.textContent = Animal;
+    otherNm.textContent = gzMonth + '月';
+    otherNd.textContent = gzDay + '日';
+
+  };
+
 
   // 事件处理
   const handle = () => {
@@ -177,7 +226,35 @@ const tooltObj = (() => {
     // 点击日期
     tbodyDom.addEventListener('click', (e) => {
       console.log(e.target);
-      
+      const tdArr = Array.from(tbodyDom.querySelectorAll('td'));
+
+      const target = e.target as HTMLElement;
+      if(target.nodeName !== 'P') { return }
+      const parentDom = target.parentElement!;
+      const id = parentDom.dataset.id;
+      console.log(parentDom);
+      console.log(id);
+
+
+      // 取消 类
+      for(const key of tdArr) {
+        // 取消
+        if(key.classList.contains('xz')) {
+          key.classList.remove("xz");
+          break;
+        }
+      }
+      // 添加 类
+      for(const key of tdArr) {
+        // 取消
+        if(key.dataset.id === id) {
+          key.classList.add("xz");
+          break;
+        }
+      }
+
+      // 跟新 其它栏 内容
+      renderMapData(id!)
     })
   }
 
@@ -185,6 +262,7 @@ const tooltObj = (() => {
   const init = () => {
     const year = dayjs().year() // 当前年份
     const month = dayjs().month() + 1 // 当前月份
+    const day = dayjs().date() // 当前日期
 
     // 初始化年份数据
     yearDom.insertAdjacentHTML('afterbegin', tooltObj.initYear());
@@ -194,7 +272,12 @@ const tooltObj = (() => {
 
     // 设置月份
     monthDom.selectedIndex = month - 1;
-    render(year, month);
+    const newArr = render(year, month);
+
+    // 便于后续事件处理
+    setMapData(newArr)
+
+    renderMapData(`${year}${month}${day}`)
 
     // 事件
     handle()
