@@ -104,3 +104,8 @@ table tr td:hover{
   font-weight: 700;
 }
 
+/* 选中 */
+table tr td.xz {
+  border: 1px solid #409eff;
+}
+
