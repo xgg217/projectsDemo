@@ -1,46 +1,51 @@
-# vue-project
+# 任务
 
-This template should help get you started developing with Vue 3 in Vite.
+## 数据表
 
-## Recommended IDE Setup
+    + `localStorage`
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+        ```js
+        {
+            id // Date().now()
+            pid // 评论 0 回复->父级的id
+            uid // 用户id
+            username // 用户名
+            comment // 评论内容
+        }
+        ```
 
-## Type Support for `.vue` Imports in TS
+## 用户
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+    + id 1 张三
+    + id 2 李四
+    + id 3 王五
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## 树形结构化
 
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+    + 结构
 
-## Customize configuration
+        ```js
+        { id: 123, pid: 0, uid: 1, username: '张三', comment: '你好' }
+        { id: 234, pid: 123, uid: 2, username: '李四', comment: '你好呀' }
+        ```
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+        ```js
+        [
+            {
+                
+                id: 123,
+                pid: 0,
+                uid: 1,
+                username: '张三',
+                comment: '你好',
+                children: [
+                    { id: 234, pid: 123, uid: 2, username: '李四', comment: '你好呀' }
+                ]
+            }
+        ]
+        ```
 
-## Project Setup
+## 功能
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+    + 评论
+    + 回复 无限级（递归组件 + 树形结构化）
