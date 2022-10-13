@@ -6,7 +6,7 @@ const state = reactive({
   commentText: "", // 评论内容
   commentTree: null, // 评论树
 });
-// import { RouterLink, RouterView } from "vue-router";
+
 const handleAddConmment = () => {
   const userInfo: user | null = JSON.parse(
     localStorage.getItem("userInfo") || "null"
@@ -26,7 +26,14 @@ const handleAddConmment = () => {
     comment: state.commentText,
     // children: [],
   };
-  console.log(commentInfo);
+  // console.log(commentInfo);
+  setComment("one", commentInfo);
+};
+
+const setComment = (field: string, comment: comment) => {
+  const currentList = JSON.parse(localStorage.getItem(field) || "[]");
+  currentList.unshift(comment);
+  localStorage.setItem(field, JSON.stringify(currentList));
 };
 </script>
 
