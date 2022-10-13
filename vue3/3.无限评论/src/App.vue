@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive } from "vue";
 import CommentOne from "@/components/CommentOne.vue";
+import CommentComp from "@/components/CommentComp.vue";
 import type { user } from "@/types/index";
 
 const userInfo: user = reactive({
@@ -35,7 +36,11 @@ const handleSet = (id: number, username: string) => {
   <button @click="handleSet(2, '李四')">李四</button>
   <button @click="handleSet(3, '王五')">王五</button>
 
+  <!-- 提交评论 -->
   <CommentOne />
+
+  <!-- 展示评论 -->
+  <CommentComp />
 
   <!-- <RouterView /> -->
 </template>

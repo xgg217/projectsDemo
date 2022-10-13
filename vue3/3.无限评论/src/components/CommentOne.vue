@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { reactive } from "vue";
-import type { user, comment } from "@/types/index";
+import { reactive, onMounted } from "vue";
+import type { user, comment, commentState } from "@/types/index";
 
-const state = reactive({
+const state: commentState = reactive({
   commentText: "", // 评论内容
-  commentTree: null, // 评论树
+  commentTree: [], // 评论树
 });
 
 const handleAddConmment = () => {
@@ -30,11 +30,21 @@ const handleAddConmment = () => {
   setComment("one", commentInfo);
 };
 
+// 存储评论
 const setComment = (field: string, comment: comment) => {
   const currentList = JSON.parse(localStorage.getItem(field) || "[]");
   currentList.unshift(comment);
   localStorage.setItem(field, JSON.stringify(currentList));
 };
+
+const getComment = (field: string): comment[] => {
+  return JSON.parse(localStorage.getItem(field) || "[]");
+};
+
+onMounted(() => {
+  // 获取评论数据
+  state.commentTree = getComment("one");
+});
 </script>
 
 <template>
