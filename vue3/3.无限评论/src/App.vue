@@ -2,20 +2,33 @@
 import { onMounted, reactive } from "vue";
 import CommentOne from "@/components/CommentOne.vue";
 import CommentComp from "@/components/CommentComp.vue";
-import type { user } from "@/types/index";
+import type { user, userComm } from "@/types/index";
 
 const userInfo: user = reactive({
   username: "",
   id: 0,
 });
 
+// 评论数据
+const userComArr: userComm[] = reactive([]);
+
 // 获取本地存储的数据
 const getLocalData = () => {
   const obj = localStorage.getItem("userInfo");
+  const one = localStorage.getItem("one");
   if (obj) {
     const userObj: user = JSON.parse(obj);
     userInfo.username = userObj.username;
     userInfo.id = userObj.id;
+  }
+
+  if (one) {
+    const oneObj: userComm[] = JSON.parse(one);
+    console.log(oneObj);
+
+    userComArr.push(...oneObj);
+    // userInfo.username = oneObj.username;
+    // userInfo.id = oneObj.id;
   }
 };
 
@@ -40,7 +53,7 @@ const handleSet = (id: number, username: string) => {
   <CommentOne />
 
   <!-- 展示评论 -->
-  <CommentComp />
+  <CommentComp :data="userComArr" />
 
   <!-- <RouterView /> -->
 </template>
