@@ -24,8 +24,9 @@ const addReply = (item: userComm) => {
   // const replyText = item.replyText;
   emit("addReply", JSON.parse(JSON.stringify(item)));
   item.isShow = false;
-  item.replyText = "";
-  console.log(item);
+  // item.replyText = "";
+  console.log(JSON.parse(JSON.stringify(item)));
+  console.log(item.replyText);
 };
 </script>
 
@@ -42,7 +43,7 @@ const addReply = (item: userComm) => {
         <button @click="addReply(item)">提交回复</button>
       </div>
       <div v-if="item.children">
-        <CommentComp :data="item.children" />
+        <CommentComp :data="item.children" @addReply="addReply" />
       </div>
     </li>
   </ul>

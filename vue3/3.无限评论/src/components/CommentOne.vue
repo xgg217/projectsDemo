@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, onMounted } from "vue";
+import CommentComp from "./CommentComp.vue";
 import type { user, comment, commentState } from "@/types/index";
 
 const state: commentState = reactive({
@@ -45,6 +46,12 @@ onMounted(() => {
   // 获取评论数据
   state.commentTree = getComment("one");
 });
+
+const addReply = (item: comment) => {
+  // setComment("one", item);
+  // state.commentTree = getComment("one");
+  console.log(item);
+};
 </script>
 
 <template>
@@ -54,6 +61,8 @@ onMounted(() => {
     </p>
     <button @click="handleAddConmment">提交评论</button>
   </div>
+
+  <CommentComp :data="state.commentTree" @addReply="addReply" />
 </template>
 
 <style scoped></style>
