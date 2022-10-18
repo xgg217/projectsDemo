@@ -5,8 +5,7 @@ import lf from '@/assets/路飞头像1.png'
 
 <template>
   <Magenifier
-    link="https://www.baidu.com"
-    blank
+    link=""
     :imgUrl="lf"
     imgWidth="350"
     imgHeight="492"

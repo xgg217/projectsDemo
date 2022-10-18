@@ -50,6 +50,7 @@ const leave = () => {
     >
       <img
         :src="props.imgUrl"
+        class="mag_img"
         alt="背景"
         :style="{
           width: props.imgWidth + 'px',
@@ -76,9 +77,39 @@ const leave = () => {
 
 <style lang="scss" scoped>
 .img_wrap {
-  img {
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 5px #999;
+
+  .mag_wrap {
+    // display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background-color: #fff;
+    box-shadow: 0 0 3px #000;
+    cursor: move;
+    overflow: hidden;
+
+    &.show {
+      display: block;
+      transform: scale(1.5);
+    }
+
+    .mag_img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      // transform: scale(1.5);
+    }
+  }
+
+  .static_img {
     width: 100%;
-    height: 100%;
+    // height: 100%;
   }
 }
 </style>
