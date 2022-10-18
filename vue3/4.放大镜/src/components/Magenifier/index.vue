@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
+import vMagnifier from "./magnifier";
 
 type Props = {
   link: string; // 跳转路径
@@ -10,6 +11,9 @@ type Props = {
   magWidth: number; // 放大镜宽度
   magHeight: number; // 放大镜高度
 }
+
+// 自定义指令
+
 
 const props = withDefaults(defineProps<Props>(), {
   link: '',
@@ -32,6 +36,7 @@ const leave = () => {
 
 <template>
   <div class="img_wrap"
+    v-magnifier
     :style="{
       width: imgWidth + 'px',
       height: imgHeight + 'px',

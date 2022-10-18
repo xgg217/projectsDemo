@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Magenifier from './components/Magenifier.vue'
+import Magenifier from './components/Magenifier/index.vue'
 import lf from '@/assets/路飞头像1.png'
 </script>
 
