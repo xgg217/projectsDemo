@@ -4,7 +4,8 @@ import { RouterLink, RouterView } from "vue-router";
 
 <template>
   <nav>
-    <RouterLink to="/">Button</RouterLink>
+    <!-- <RouterLink to="/">首页</RouterLink>
+    <RouterLink to="/button">Button</RouterLink> -->
     <!-- <RouterLink to="/about">About</RouterLink> -->
   </nav>
 
