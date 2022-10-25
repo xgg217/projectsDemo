@@ -1,11 +1,14 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
 
-import './assets/main.css'
+// import "./assets/main.css";
+import FightingDesign from "fighting-design";
+import "fighting-design/dist/index.css";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(router)
+app.use(FightingDesign);
+app.use(router);
 
-app.mount('#app')
+app.mount("#app");
