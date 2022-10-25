@@ -26,6 +26,7 @@
     "fighting-design": "0.7.0-alpha.3",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
+    "sass": "^1.55.0",
     "typescript": "~4.7.4",
     "vite": "^3.0.9",
     "vue-tsc": "^0.40.7"
