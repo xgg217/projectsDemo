@@ -1,0 +1,71 @@
+{
+  "name": "fighting-design",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "docs",
+    "start"
+  ],
+  "engines": {
+    "node": ">= 16"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "start": "pnpm run -C start dev",
+    "dev:play": "pnpm run -C packages/fighting-playground dev",
+    "dev:docs": "pnpm run -C docs dev",
+    "build": "pnpm clean && pnpm build:css && pnpm build:theme && vite build",
+    "build:css": "vite build --config vite.config.css.ts",
+    "build:theme": "vite build --config vite.config.theme.ts",
+    "build:icon": "rimraf dist-icon && vite build --config vite.config.icon.ts && node script/move-icon.ts",
+    "build:docs": "pnpm run -C docs build",
+    "build:start": "pnpm run -C start build",
+    "build:play": "pnpm run -C packages/fighting-playground build",
+    "serve:docs": "pnpm run -C docs serve",
+    "new": "pnpm run -C packages/add-component new",
+    "test": "vitest",
+    "prettier": "prettier --write .",
+    "commit": "cz",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@fighting-design/eslint-config": "workspace:*",
+    "@fighting-design/fighting-icon": "workspace:*",
+    "@fighting-design/fighting-theme": "workspace:*",
+    "@types/node": "^17.0.42",
+    "@vitejs/plugin-vue": "^3.0.1",
+    "@vue/test-utils": "^2.0.0-rc.18",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.23.0",
+    "happy-dom": "^3.2.2",
+    "husky": "^8.0.1",
+    "lint-staged": "^12.4.2",
+    "prettier": "^2.6.2",
+    "rimraf": "^3.0.2",
+    "rollup-plugin-visualizer": "^5.8.0",
+    "sass": "^1.55.0",
+    "typescript": "^4.7.4",
+    "unplugin-vue-setup-extend-plus": "^0.3.2",
+    "vite": "^3.1.8",
+    "vite-plugin-dts": "^1.6.6",
+    "vite-svg-loader": "^3.6.0",
+    "vitest": "^0.24.3",
+    "vue-tsc": "^0.40.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,vue}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
