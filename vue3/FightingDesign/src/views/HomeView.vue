@@ -11,6 +11,9 @@ import { RouterLink } from "vue-router";
       <li>
         <RouterLink to="/button">Button</RouterLink>
       </li>
+      <li>
+        <RouterLink to="/calendar">日历</RouterLink>
+      </li>
     </ul>
   </main>
 </template>
